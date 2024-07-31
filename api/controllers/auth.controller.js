@@ -46,7 +46,7 @@ export const SignupUser = async (req, res) => {
             generateTokenAndCookie(newUser._id, res);
             
             await newUser.save();
-            res.status(201).json({ 
+            res.status(200).json({ 
                 _id: newUser._id, 
                 firstname: newUser.firstname, 
                 lastname: newUser.lastname,
@@ -56,19 +56,60 @@ export const SignupUser = async (req, res) => {
                 profilePic: newUser.profilePic 
             });
         } else {
-            res.status(400).json({ error: "Invalid User Data" });
+            return res.status(400).json({ error: "Invalid User Data" });
         }
 
     } catch(error) {
         console.error("Error in signup controller", error.message);
-        res.status(500).json({ error: "Internal Server Error" })
+        res.status(500).json({ error: "Internal Server Error" });
     }
 };
 
-export const loginUser = (req, res) => {
-    res.send("Login User");
+export const loginUser = async (req, res) => {
+    try {
+        const { username, email, password } = req.body;
+
+        // check if there is a user with this username or email
+        const user = await User.findOne({
+            $and: [
+              { username },
+              { email },
+            ]
+        });
+
+        if(user) {
+            // compare logged password to the hashed password
+            const checkPassword = await bcryptjs.compare(password, user.password);
+
+            if(checkPassword){
+
+                // generate cookie
+                generateTokenAndCookie(user._id, res);
+                res.status(200).json({ 
+                    _id: user._id,
+                    username: user.username,
+                    profilePic: user.profilePic
+                });
+            } else {
+                return res.status(400).json({ error: "Invalid Password" });
+            }
+        } else {
+            return res.status(400).json({ error: "Invalid Username or Email" });
+        }
+
+    } catch (error) {
+        console.error("Error in login controller", error.message);
+        res.status(500).json({ error: "Internal Server Error" });
+    }
 };
 
 export const LogoutUser = (req, res) => {
-    res.send("Logout User");
+    try {
+        res.cookie("jwt", "", { maxAge:0 });
+        res.status(200).json({ message: "Successfully Logged Out" });
+        
+    } catch (error) {
+        console.error("Error in logout controller", error.message);
+        res.status(500).json({ error: "Internal Server Error" });
+    }
 };
