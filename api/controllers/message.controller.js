@@ -36,3 +36,28 @@ export const sendMessage = async (req, res) => {
         res.status(500).json({ error: "Internal Server Error" });
     }
 }
+
+export const getMessages = async (req, res) => {
+    try {
+
+        // take the id of both users
+        const { id: receiverId } = req.params;
+        const senderId = req.user._id;
+
+        // filter the prev conversation choosing only the actual messages from it
+        const conversation = await Conversation.findOne({
+            participants: { $all: [senderId, receiverId] },
+        }).populate("messages");
+
+        // check if there is a previous conversation between both
+        if(!conversation) return res.status(200).json([]);
+
+        const messages = conversation.messages;
+
+        res.status(200).json(messages);
+
+    } catch (error) {
+        console.error("Error in getMessages controller", error.message);
+        res.status(500).json({ error: "Internal Server Error" });
+    }
+}
