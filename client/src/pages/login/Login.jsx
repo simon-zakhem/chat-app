@@ -1,12 +1,13 @@
 import React from 'react';
 import Signup from '../signup/Signup';
+import { Link } from 'react-router-dom';
 
 const Login = () => {
   return (
     <div className="font-thin bg-white min-h-screen">
       <div className="grid grid-cols-1 md:grid-cols-2 h-full">
         {/* Image Section: Visible only on medium and larger screens */}
-        <div className="hidden md:block bg-green-600">
+        <div className="hidden md:block bg-teal-700">
           <img
             src="https://readymadeui.com/signin-image.webp"
             className="w-full h-full object-contain" 
@@ -18,7 +19,7 @@ const Login = () => {
         <div className="flex items-center justify-center p-6 h-screen w-full">
           <form className="max-w-lg w-full mx-auto">
             <div className="mb-12">
-              <h3 className="text-green-500 md:text-3xl text-2xl font-extrabold text-center">Login</h3>
+              <h3 className="text-teal-500 md:text-3xl text-2xl font-extrabold text-center">Login</h3>
             </div>
 
             <div>
@@ -28,7 +29,7 @@ const Login = () => {
                   name="name"
                   type="text"
                   required
-                  className="w-full text-black bg-transparent text-sm border-b border-gray-300 focus:border-green-500 px-2 py-3 outline-none"
+                  className="w-full text-black bg-transparent text-sm border-b border-gray-300 focus:border-teal-500 px-2 py-3 outline-none"
                   placeholder="Enter username"
                 />
                 <svg
@@ -56,7 +57,7 @@ const Login = () => {
                   required
                   className="w-full text-black bg-transparent 
                   text-sm border-b border-gray-300 
-                  focus:border-green-500 px-2 py-3 outline-none"
+                  focus:border-teal-500 px-2 py-3 outline-none"
                   placeholder="Enter password"
                 />
                 <svg
@@ -77,18 +78,18 @@ const Login = () => {
             <div className="mt-12">
               <button
                 type="button"
-                className="w-full py-3 px-6 text-sm tracking-wider font-semibold rounded-md bg-green-600 hover:bg-green-700 text-white focus:outline-none"
+                className="w-full py-3 px-6 text-sm tracking-wider font-semibold rounded-md bg-teal-600 hover:bg-teal-700 text-white focus:outline-none"
               >
                 Login
               </button>
               <p className="text-sm mt-6 text-gray-800">
                 Don't have an account?{' '}
-                <a
-                  href={<Signup/>}
-                  className="text-green-500 font-semibold hover:underline ml-1"
+                <Link
+                  to={'/signup'}
+                  className="text-teal-500 font-semibold hover:underline ml-1"
                 >
                   Register here
-                </a>
+                </Link>
               </p>
             </div>
           </form>

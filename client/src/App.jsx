@@ -1,18 +1,21 @@
+import { Route, Routes } from 'react-router-dom'
 import './App.css'
 import Home from './pages/home/Home'
 import Login from './pages/login/Login'
 import Signup from './pages/signup/Signup'
+import UserContextProvider from './components/UserContext'
 
 function App() {
 
   return (
     <>
-      {/* <div className='p-4 h-screen flex items-center justify-center'>
-        <Login />
-      </div> */}
-      {/* <Login/> */}
-      {/* <Signup /> */}
-      <Home />
+      <UserContextProvider>
+        <Routes>
+          <Route path='/' element={<Home/>}></Route>
+          <Route path='/login' element={<Login/>}></Route>
+          <Route path='/signup' element={<Signup/>}></Route>
+        </Routes>
+      </UserContextProvider>
     </>
   )
 }
