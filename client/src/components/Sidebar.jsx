@@ -1,6 +1,21 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import authService from '../services/auth.service';
+import { UserContext } from '../context/UserContext';
+import { Link } from 'react-router-dom';
 
 const Sidebar = ({ isSidebarOpen, toggleSidebar }) => {
+
+  const { userInfo, setUserInfo } = useContext(UserContext);
+
+  const handleLogout = async () => {
+    try {
+      await authService.logout();
+      setUserInfo(null);
+      localStorage.removeItem('chat-user');
+    } catch (error) {
+      console.error(error);
+    }
+  };
   return (
     <>
       {/* Sidebar */}
@@ -87,6 +102,7 @@ const Sidebar = ({ isSidebarOpen, toggleSidebar }) => {
             </li>
             {/* More team members... */}
           </ul>
+          <Link to={"/login"} className="bg-teal-700 p-2 rounded-r-full" onClick={handleLogout}>Logout</Link>
         </div>
       </nav>
     </>

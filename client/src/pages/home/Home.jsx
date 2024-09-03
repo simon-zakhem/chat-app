@@ -3,6 +3,7 @@ import Sidebar from '../../components/Sidebar';
 import Chat from '../../components/Chat';
 
 const Home = () => {
+
   // State to manage the visibility of the sidebar
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 

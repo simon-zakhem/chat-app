@@ -1,6 +1,6 @@
 import React, { useContext, useState } from 'react';
 import { Link, Navigate } from 'react-router-dom';
-import { UserContext } from '../../components/UserContext';
+import { UserContext } from '../../context/UserContext';
 import authService from '../../services/auth.service';
 import toast from 'react-hot-toast';
 
@@ -21,6 +21,10 @@ const Signup = () => {
     e.preventDefault();
 
     try{
+
+      if(input.password !== input.confirmPassword){
+        toast.error("The passwords are not identical.");
+      }
       const userInfo = await authService.signup(input.firstname, input.lastname, input.username, input.email, input.password, input.confirmPassword);
 
       if(userInfo){
