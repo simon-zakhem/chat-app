@@ -1,8 +1,40 @@
-import React from 'react';
-import Signup from '../signup/Signup';
-import { Link } from 'react-router-dom';
+import React, { useContext, useState } from 'react';
+import { Link, Navigate } from 'react-router-dom';
+import { UserContext } from '../../context/UserContext';
+import authService from '../../services/auth.service';
+import toast from 'react-hot-toast';
 
 const Login = () => {
+
+  const [input, setInput] = useState({
+    username: '',
+    email: '',
+    password: ''
+  });
+  const [redirect, setRedirect] = useState(false);
+  const { setUserInfo } = useContext(UserContext);
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    try {
+      const userInfo = await authService.login(input.username, input.email, input.password);
+      console.log(userInfo);
+      
+      if (userInfo) {
+        setUserInfo(userInfo);
+        setRedirect(true);
+      } else {
+        toast.error('Wrong username/password');
+      }
+    } catch (error) {
+      console.error('Error logging in:', error);
+    }
+  };
+
+  if(redirect){
+    return <Navigate to={'/'}/>
+  }
+
   return (
     <div className="font-thin bg-white min-h-screen">
       <div className="grid grid-cols-1 md:grid-cols-2 h-full">
@@ -17,12 +49,12 @@ const Login = () => {
 
         {/* Login Form Section */}
         <div className="flex items-center justify-center p-6 h-screen w-full">
-          <form className="max-w-lg w-full mx-auto">
+          <form onSubmit={handleSubmit} className="max-w-lg w-full mx-auto">
             <div className="mb-12">
               <h3 className="text-teal-500 md:text-3xl text-2xl font-extrabold text-center">Login</h3>
             </div>
 
-            <div>
+            <div className="mb-4">
               <label className="text-gray-800 text-xs block mb-2">Username</label>
               <div className="relative flex items-center">
                 <input
@@ -31,6 +63,8 @@ const Login = () => {
                   required
                   className="w-full text-black bg-transparent text-sm border-b border-gray-300 focus:border-teal-500 px-2 py-3 outline-none"
                   placeholder="Enter username"
+                  value={input.username}
+                  onChange={(e) => setInput({ ...input, username: e.target.value })}
                 />
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -48,6 +82,22 @@ const Login = () => {
               </div>
             </div>
 
+            {/* Email Field */}
+            <div className="mb-4">
+              <label className="text-gray-800 text-xs block mb-2">Email</label>
+              <div className="relative flex items-center">
+                <input
+                  name="email"
+                  type="email"
+                  required
+                  className="w-full text-black bg-transparent text-sm border-b border-gray-300 focus:border-teal-500 px-2 py-3 outline-none"
+                  placeholder="Enter email"
+                  value={input.email}
+                  onChange={(e) => setInput({ ...input, email: e.target.value })}
+                />
+              </div>
+            </div>
+
             <div className="mt-6">
               <label className="text-gray-800 text-xs block mb-2">Password</label>
               <div className="relative flex items-center">
@@ -59,6 +109,8 @@ const Login = () => {
                   text-sm border-b border-gray-300 
                   focus:border-teal-500 px-2 py-3 outline-none"
                   placeholder="Enter password"
+                  value={input.password}
+                  onChange={(e) => setInput({ ...input, password: e.target.value })}
                 />
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -77,7 +129,7 @@ const Login = () => {
 
             <div className="mt-12">
               <button
-                type="button"
+                type="submit"
                 className="w-full py-3 px-6 text-sm tracking-wider font-semibold rounded-md bg-teal-600 hover:bg-teal-700 text-white focus:outline-none"
               >
                 Login

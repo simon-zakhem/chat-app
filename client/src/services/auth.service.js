@@ -1,8 +1,10 @@
 import axios from 'axios'
 
+const AXIOS_URL = 'http://localhost:5001/api/auth';
+
 const signup = async (firstname, lastname, username, email, password, confirmPassword) => {
     try {
-      const response = await axios.post('http://localhost:5001/api/auth/signup', {
+      const response = await axios.post(`${AXIOS_URL}/signup`, {
         firstname,
         lastname,
         username,
@@ -27,7 +29,7 @@ const signup = async (firstname, lastname, username, email, password, confirmPas
 
 const logout = async () => {
     try {
-      const response = await axios.post('http://localhost:5001/api/auth/logout', null, {
+      const response = await axios.post(`${AXIOS_URL}/logout`, null, {
         withCredentials: true,
       });
   
@@ -39,9 +41,34 @@ const logout = async () => {
     }
 };
 
+const login = async (username, email, password) => {
+  try {
+    const response = await axios.post(`${AXIOS_URL}/login`, {
+      username,
+      email,
+      password,
+    }, {
+      withCredentials: true,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+
+    console.log(response);
+    
+
+    localStorage.setItem("chat-user", JSON.stringify(response.data));
+    return response.data;
+  } catch (error) {
+    console.error('Error logging in:', error);
+    throw error;
+  }
+};
+
 const authService = {
     signup,
     logout,
+    login,
 }
 
 export default authService;
