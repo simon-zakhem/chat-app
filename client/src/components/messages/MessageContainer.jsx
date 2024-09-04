@@ -1,6 +1,6 @@
 import React from 'react'
 
-const Content = () => {
+const MessageContainer = () => {
   return (
     <>
     {/* Chat Messages */}
@@ -45,4 +45,4 @@ const Content = () => {
   )
 }
 
-export default Content
+export default MessageContainer

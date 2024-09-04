@@ -54,9 +54,6 @@ const login = async (username, email, password) => {
       },
     });
 
-    console.log(response);
-    
-
     localStorage.setItem("chat-user", JSON.stringify(response.data));
     return response.data;
   } catch (error) {

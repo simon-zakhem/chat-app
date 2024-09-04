@@ -1,7 +1,7 @@
 import React from 'react'
 import Header from './Header'
-import Content from './Content'
 import Input from './Input'
+import MessageContainer from './messages/MessageContainer'
 
 const Chat = ({ isSidebarOpen, toggleSidebar }) => {
   return (
@@ -12,7 +12,7 @@ const Chat = ({ isSidebarOpen, toggleSidebar }) => {
       >
         <Header toggleSidebar={toggleSidebar} />
 
-        <Content />
+        <MessageContainer />
 
         <Input />
       </div>

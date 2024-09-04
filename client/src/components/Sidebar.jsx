@@ -2,6 +2,7 @@ import React, { useContext } from 'react';
 import authService from '../services/auth.service';
 import { UserContext } from '../context/UserContext';
 import { Link } from 'react-router-dom';
+import Conversations from './Conversations';
 
 const Sidebar = ({ isSidebarOpen, toggleSidebar }) => {
 
@@ -87,19 +88,7 @@ const Sidebar = ({ isSidebarOpen, toggleSidebar }) => {
 
           {/* List of members */}
           <ul className="mt-6 space-y-6">
-            <li className="flex items-center text-sm text-gray-300 hover:text-white cursor-pointer">
-              <span className="relative inline-block mr-4">
-                <img
-                  src="https://readymadeui.com/profile_3.webp"
-                  className="w-10 h-10 p-1 rounded-full border-2 border-gray-300"
-                />
-                <span className="h-3 w-3 rounded-full bg-green-600 block absolute bottom-1 right-0"></span>
-              </span>
-              Peter Taylor
-              <span className="bg-red-500 min-w-[20px] min-h-[20px] px-1 flex items-center justify-center text-white text-[11px] font-bold rounded-full ml-auto">
-                1
-              </span>
-            </li>
+            <Conversations/>
             {/* More team members... */}
           </ul>
           <Link to={"/login"} className="bg-teal-700 p-2 rounded-r-full" onClick={handleLogout}>Logout</Link>

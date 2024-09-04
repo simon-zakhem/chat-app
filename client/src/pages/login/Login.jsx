@@ -18,7 +18,6 @@ const Login = () => {
     event.preventDefault();
     try {
       const userInfo = await authService.login(input.username, input.email, input.password);
-      console.log(userInfo);
       
       if (userInfo) {
         setUserInfo(userInfo);
